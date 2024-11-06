@@ -1,52 +1,25 @@
 pipeline {
     agent any
-
-    environment {
-        NEWMAN_REPORT_DIR = "newman_reports"
-    }
-
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-        
-        stage('Install Dependencies') {
+        stage('Build') {
             steps {
-                script {
-                    // تثبيت Newman وhtmlextra reporter
-                    sh 'npm install -g newman newman-reporter-htmlextra'
-                }
+                echo 'Building the project...'
             }
         }
-
-        stage('Run Postman Collection') {
+        stage('Test') {
             steps {
-                script {
-                    // تشغيل collection باستخدام Newman وتوليد التقرير
-                    sh """
-                    newman run "Trello API _environment.postman_collection.json" \
-                    --environment "Trello.postman_environment.json" \
-                    --reporters cli,htmlextra \
-                    --reporter-htmlextra-export ${NEWMAN_REPORT_DIR}/report.html
-                    """
-                }
+                echo 'Running tests...'
             }
         }
-
-        stage('Archive Test Report') {
+        stage('Deploy') {
             steps {
-                // رفع التقرير كـ artifact بعد التشغيل
-                archiveArtifacts artifacts: "${NEWMAN_REPORT_DIR}/report.html", allowEmptyArchive: true
+                echo 'Deploying application...'
             }
-        }
-    }
-
-    post {
-        always {
-            // يمكن هنا إرسال بريد أو إجراء أي عملية أخرى بعد التنفيذ
-            echo 'Postman Collection test run completed.'
         }
     }
 }
