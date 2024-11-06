@@ -1,0 +1,723 @@
+{
+	"info": {
+		"_postman_id": "d81e6348-a3d2-446b-9fbd-2b197d646e3a",
+		"name": "Trello API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25343597"
+	},
+	"item": [
+		{
+			"name": "create a board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// // set Variable\r",
+							"pm.test('set id board',()=> {\r",
+							"    const jasonData = pm.response.json();\r",
+							"    pm.collectionVariables.set(\"Id_Board\", jasonData.id );\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 2000ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"    const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Check if name matches\", function () {\r",
+							"    pm.expect(response.name).to.eql('Learn API');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check available data',()=>{\r",
+							"    pm.expect(response).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check available data properties',()=>{\r",
+							"    pm.expect(response).to.haveOwnProperty('id');\r",
+							"    pm.expect(response).to.haveOwnProperty('name');\r",
+							"});\r",
+							"\r",
+							"pm.test('Check available data',()=>{\r",
+							"    pm.expect(response).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check Board is closed\", function () {\r",
+							"    pm.expect(response.closed).to.eql(false);\r",
+							"\r",
+							"});pm.test(\"CheckBoard is private\", function () {\r",
+							"    pm.expect(response.prefs.permissionLevel).to.eql('private');\r",
+							"});\r",
+							"\r",
+							"// find = (حتى ابحث عن شئ داخل object)\r",
+							"pm.test(\"Calender is disabled\", function () {\r",
+							"  const calender_view = response.prefs.switcherViews.find(view=> view.viewType ==='Calendar');\r",
+							"    pm.expect(calender_view.enabled).to.eql(false);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}boards/?name=Learn API&key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}boards"
+					],
+					"path": [
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Learn API"
+						},
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				},
+				"description": "The endpoint makes an HTTP POST request to create a new board with the specified name, using the provided API key and token for authentication.\n\nThe response for this request is a JSON object with the following schema:\n\n``` json\n{\n  \"id\": \"\",\n  \"name\": \"\",\n  \"desc\": \"\",\n  \"descData\": null,\n  \"closed\": true,\n  \"idOrganization\": \"\",\n  \"idEnterprise\": null,\n  \"pinned\": true,\n  \"url\": \"\",\n  \"shortUrl\": \"\",\n  \"prefs\": {\n    \"permissionLevel\": \"\",\n    \"hideVotes\": true,\n    \"voting\": \"\",\n    \"comments\": \"\",\n    \"invitations\": \"\",\n    \"selfJoin\": true,\n    \"cardCovers\": true,\n    \"cardCounts\": true,\n    \"isTemplate\": true,\n    \"cardAging\": \"\",\n    \"calendarFeedEnabled\": true,\n    \"hiddenPluginBoardButtons\": [],\n    \"switcherViews\": [\n      {\n        \"viewType\": \"\",\n        \"enabled\": true\n      }\n    ],\n    \"background\": \"\",\n    \"backgroundColor\": \"\",\n    \"backgroundImage\": null,\n    \"backgroundTile\": true,\n    \"backgroundBrightness\": \"\",\n    \"sharedSourceUrl\": null,\n    \"backgroundImageScaled\": null,\n    \"backgroundBottomColor\": \"\",\n    \"backgroundTopColor\": \"\",\n    \"canBePublic\": true,\n    \"canBeEnterprise\": true,\n    \"canBeOrg\": true,\n    \"canBePrivate\": true,\n    \"canInvite\": true\n  },\n  \"labelNames\": {\n    \"green\": \"\",\n    \"yellow\": \"\",\n    \"orange\": \"\",\n    \"red\": \"\",\n    \"purple\": \"\",\n    \"blue\": \"\",\n    \"sky\": \"\",\n    \"lime\": \"\",\n    \"pink\": \"\",\n    \"black\": \"\",\n    \"green_dark\": \"\",\n    \"yellow_dark\": \"\",\n    \"orange_dark\": \"\",\n    \"red_dark\": \"\",\n    \"purple_dark\": \"\",\n    \"blue_dark\": \"\",\n    \"sky_dark\": \"\",\n    \"lime_dark\": \"\",\n    \"pink_dark\": \"\",\n    \"black_dark\": \"\",\n    \"green_light\": \"\",\n    \"yellow_light\": \"\",\n    \"orange_light\": \"\",\n    \"red_light\": \"\",\n    \"purple_light\": \"\",\n    \"blue_light\": \"\",\n    \"sky_light\": \"\",\n    \"lime_light\": \"\",\n    \"pink_light\": \"\",\n    \"black_light\": \"\"\n  },\n  \"limits\": {}\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "Get single board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//console.log(pm.collectionVariables.get('Id_Board'));\r",
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('validate fields are present', function() {\r",
+							"    //التحقق من ان الفيلد موجود مع جسم الاستجابة\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.haveOwnProperty('name');\r",
+							"     pm.expect(jsonData).to.haveOwnPropertyDescriptor('name');\r",
+							"    pm.expect(jsonData.name).to.be.a('string');\r",
+							"     pm.expect(jsonData.name).to.equal(\"Learn API\");\r",
+							"});\r",
+							"\r",
+							"pm.test('validate fields on object', function() {\r",
+							"    //التحقق من ان الفيلد موجود مع جسم الاستجابة\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an('object');\r",
+							"});\r",
+							"\r",
+							"// pm.test(\"Response has the required fields\", function () {\r",
+							"//     const responseData = pm.response.json();\r",
+							"\r",
+							"//     pm.expect(responseData).to.be.an('object');\r",
+							"//     pm.expect(responseData.id).to.be.a('string');\r",
+							"//     pm.expect(responseData.desc).to.be.null;\r",
+							"//     pm.expect(responseData.closed).to.be.true;\r",
+							"//     pm.expect(responseData.idOrganization).to.equal(\"\");\r",
+							"//     pm.expect(responseData.pinned).to.be.true;\r",
+							"//     pm.expect(responseData.pinned).to.be.a('boolean');\r",
+							"//     pm.expect(responseData.url).to.equal(\"\");\r",
+							"//     pm.expect(responseData.shortUrl).to.equal(\"\");\r",
+							"//     pm.expect(responseData.prefs).to.be.an('object');\r",
+							"//     pm.expect(responseData.labelNames).to.be.an('object');\r",
+							"// });\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}boards/:id?key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}boards"
+					],
+					"path": [
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{Id_Board}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a TODO list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"pm.test('Set id List',() =>{\r",
+							"pm.collectionVariables.set(\"TODO_list\", response.id);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check name lis is TODO' , ()=>{\r",
+							"        pm.expect(response.name).to.eql('ToDo');\r",
+							"        pm.expect(response.closed).to.eql(false)\r",
+							"        pm.expect(response.idBoard).to.eql(pm.collectionVariables.get('Id_Board'));\r",
+							"        \r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}lists?name=ToDo&idBoard={{Id_Board}}&key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "ToDo"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{Id_Board}}"
+						},
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				},
+				"description": "This endpoint makes an HTTP POST request to create a new list with the provided name on a specific board. The request includes the name of the list, the board ID, API key, and token for authentication.\n\n### Request Parameters\n\n- `name`: (query parameter) The name of the new list.\n    \n- `idBoard`: (query parameter) The ID of the board where the list will be created.\n    \n- `key`: (query parameter) API key for authentication.\n    \n- `token`: (query parameter) Token for authentication.\n    \n\n### Response\n\nThe response returned a status code of 401 (Unauthorized) with a content type of text/plain. The response body contains the message \"unauthorized board list requested\" followed by an alphanumeric code.\n\n### JSON Schema\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"status\": {\n      \"type\": \"number\",\n      \"description\": \"The HTTP status code of the response.\"\n    },\n    \"Content-Type\": {\n      \"type\": \"string\",\n      \"description\": \"The type of content in the response.\"\n    },\n    \"message\": {\n      \"type\": \"string\",\n      \"description\": \"A message indicating the reason for the unauthorized request.\"\n    },\n    \"code\": {\n      \"type\": \"string\",\n      \"description\": \"An alphanumeric code associated with the unauthorized request.\"\n    }\n  }\n}\n\n ```"
+			},
+			"response": []
+		},
+		{
+			"name": "Create DONE list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const response = pm.response.json();\r",
+							"pm.test('Set id List',() =>{\r",
+							"pm.collectionVariables.set(\"DONE_list\", response.id);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check name lis is TODO' , ()=>{\r",
+							"        pm.expect(response.name).to.eql('DONE');\r",
+							"        pm.expect(response.closed).to.eq(false)\r",
+							"        pm.expect(response.idBoard).to.eq(pm.collectionVariables.get('Id_Board'));\r",
+							"        \r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}lists?name=DONE&idBoard={{Id_Board}}&key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}lists"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "DONE"
+						},
+						{
+							"key": "idBoard",
+							"value": "{{Id_Board}}"
+						},
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get List",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}lists/:id?key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}lists"
+					],
+					"path": [
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{TODO_list}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// set Variable\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test('Set id card', function() {\r",
+							"    pm.collectionVariables.set(\"Id_Card\", response.id);\r",
+							"});\r",
+							"\r",
+							"pm.test('Check name Card is Signin_Trello' , function(){\r",
+							"    pm.expect(response.name).to.eql('Signin_Trello');\r",
+							"    pm.expect(response.idList).to.eql(pm.collectionVariables.get('TODO_list'));\r",
+							"    pm.expect(response.badges.attachmentsByType.trello.card).to.eql(0);\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}cards?idList={{TODO_list}}&key={{api-key}}&token={{token}}&name=Signin_Trello",
+					"host": [
+						"{{baseurl}}cards"
+					],
+					"query": [
+						{
+							"key": "idList",
+							"value": "{{TODO_list}}"
+						},
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "name",
+							"value": "Signin_Trello"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}cards/:id?key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}cards"
+					],
+					"path": [
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{Id_Card}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Move card to DONE list",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check move card is correct\", function () {\r",
+							"     const response = pm.response.json();\r",
+							"    pm.expect(response.name).to.eql('Signin_Trello');\r",
+							"    pm.expect(response.idList).to.eql(pm.collectionVariables.get('DONE_list'));\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}cards/:id?key={{api-key}}&token={{token}}&idList={{DONE_list}}",
+					"host": [
+						"{{baseurl}}cards"
+					],
+					"path": [
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						},
+						{
+							"key": "idList",
+							"value": "{{DONE_list}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{Id_Card}}"
+						}
+					]
+				},
+				"description": "This endpoint allows you to update a specific card by its ID. You need to provide the API key and token as query parameters for authentication.\n\n### Request Parameters\n\n- `id` (path parameter): The ID of the card to be updated.\n    \n- `key` (query parameter): Your API key for authentication.\n    \n- `token` (query parameter): Your token for authentication.\n    \n\n### Response\n\nThe response of this request is a JSON schema representing the structure of the updated card object."
+			},
+			"response": []
+		},
+		{
+			"name": "Get all boards",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Fixed TypeError by checking if response array is not empty before accessing id\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"console.log(pm.response.json().length);\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"if (response.length > 0) {\r",
+							"    pm.collectionVariables.set('Id_Board', response[0].id);\r",
+							"    console.log(response.map(board => board.id));\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}members/me/boards?key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}members"
+					],
+					"path": [
+						"me",
+						"boards"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete board",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}boards/:id?key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}boards"
+					],
+					"path": [
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{Id_Board}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get deleted board",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"pm.test('Error handle', function () {\r",
+							"    const response = pm.response.text();\r",
+							"    pm.expect(response).to.have.string(\"The requested resource was not found.\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseurl}}boards/:id?key={{api-key}}&token={{token}}",
+					"host": [
+						"{{baseurl}}boards"
+					],
+					"path": [
+						":id"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "{{api-key}}"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}"
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{Id_Board}}"
+						}
+					]
+				},
+				"description": "The GET request retrieves information about a specific board identified by its ID, using the provided API key and token for authentication.\n\n### Response\n\nThe response returns a status code of 404 with a content type of text/plain. The message \"The requested resource was not found\" indicates that the requested board with the specified ID was not found.\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"status\": {\n      \"type\": \"number\",\n      \"description\": \"The HTTP status code\"\n    },\n    \"message\": {\n      \"type\": \"string\",\n      \"description\": \"Description of the error message\"\n    }\n  }\n}\n\n ```"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://api.trello.com/1/",
+			"type": "string"
+		},
+		{
+			"key": "api-key",
+			"value": "c731c16ce4c744a68fcbd97f4f155fb9",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "ATTA48bab05ef340f4038b8dbfc1e445d185a5cde1e131a1c998f81db368345a129a6B4C48E9",
+			"type": "string"
+		},
+		{
+			"key": "Id_Board",
+			"value": ""
+		},
+		{
+			"key": "TODO_list",
+			"value": ""
+		},
+		{
+			"key": "DONE_list",
+			"value": ""
+		},
+		{
+			"key": "Id_Card",
+			"value": ""
+		}
+	]
+}
