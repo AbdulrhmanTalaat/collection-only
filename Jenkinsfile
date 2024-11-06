@@ -6,19 +6,12 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
-            }
-        }
         stage('Install Dependencies') {
             steps {
                 script {
-                    // تثبيت Node.js
-                    sh 'npm install -g newman'
-                    // تثبيت Newman's htmlextra reporter
-                    sh 'npm install -g newman-reporter-htmlextra'
-                    // إنشاء دليل newman
+                    sh 'export PATH=$PATH:/home/jenkins/.npm-global/bin'
+                    sh 'npm install -g --prefix /home/jenkins/.npm-global newman'
+                    sh 'npm install -g --prefix /home/jenkins/.npm-global newman-reporter-htmlextra'
                     sh 'mkdir -p newman'
                 }
             }
