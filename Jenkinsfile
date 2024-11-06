@@ -11,33 +11,18 @@ pipeline {
                 echo 'Building the project...'
             }
         }
-
-{
-  "steps": [
-    {
-      "name": "Install Node.js",
-      "uses": "actions/setup-node@v4",
-      "with": {
-        "node-version": "20"
-      }
-    },
-    {
-      "name": "Install Newman",
-      "run": "npm install -g newman"
-    },
-    {
-      "name": "Install htmlextra reporter",
-      "run": "npm install -g newman-reporter-htmlextra"
-    },
-    {
-      "name": "Create newman directory",
-      "run": "mkdir -p newman"
-    }
-  ]
-}
-
-
-        
+        stage('Install Dependencies') {
+            steps {
+                script {
+                    // تثبيت Node.js
+                    sh 'npm install -g newman'
+                    // تثبيت Newman's htmlextra reporter
+                    sh 'npm install -g newman-reporter-htmlextra'
+                    // إنشاء دليل newman
+                    sh 'mkdir -p newman'
+                }
+            }
+        }
         stage('Test') {
             steps {
                 echo 'Running tests...'
